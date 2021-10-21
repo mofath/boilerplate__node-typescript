@@ -44,7 +44,7 @@ import path from 'path';
  *** BgWhite = '\x1b[47m'
  */
 
-const logPath = path.join(__dirname, '../logs');
+const logPath = path.join(__dirname, '../../logs');
 
 const LEVELS = {
   error: { color: 'red' },
@@ -99,27 +99,27 @@ logger.add(
   })
 );
 
-// Object.keys(LEVELS).forEach((level) => {
-//   const original = logger[level];
-//   logger[level] = (...params) => {
-//     for (let i = 0; i < params.length; i++) {
-//       if (params[i] instanceof Error && params[i].stack) {
-//         const e = params[i];
-//         const lines = e.stack.split('\n');
-//         lines.shift();
-//         lines.unshift(
-//           `${e.name}:` + (e.code ? `${e.code}` : '') + ` ${e.message}`
-//         );
-//         params[i] = lines.join('\n');
-//       } else if (typeof params[i] === 'string' && params[i].length > 1000) {
-//         params[i] = params[i].substring(0, 1000) + '[MORE]';
-//       } else if (Array.isArray(params[i]) && params[i].length > 20) {
-//         params[i] = params[i].slice(0, 20);
-//         params[i].push('[MORE]');
-//       }
-//     }
-//     return original(...params);
-//   };
-// });
+Object.keys(LEVELS).forEach((level) => {
+  const original = logger[level];
+  logger[level] = (...params) => {
+    for (let i = 0; i < params.length; i++) {
+      if (params[i] instanceof Error && params[i].stack) {
+        const e = params[i];
+        const lines = e.stack.split('\n');
+        lines.shift();
+        lines.unshift(
+          `${e.name}:` + (e.code ? `${e.code}` : '') + ` ${e.message}`
+        );
+        params[i] = lines.join('\n');
+      } else if (typeof params[i] === 'string' && params[i].length > 1000) {
+        params[i] = params[i].substring(0, 1000) + '[MORE]';
+      } else if (Array.isArray(params[i]) && params[i].length > 20) {
+        params[i] = params[i].slice(0, 20);
+        params[i].push('[MORE]');
+      }
+    }
+    return original(...params);
+  };
+});
 
 export default logger;
