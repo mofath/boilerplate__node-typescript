@@ -1,9 +1,13 @@
 import mongooseLoader from './mongoose';
+import { Application } from 'express';
 import iocContainerLoader from './iocContainer';
 import { logger } from '../lib';
+import expressLoader from './express';
 
-const loader = async () => {
+const loader = async (app: Application) => {
   try {
+    expressLoader(app);
+
     await mongooseLoader();
     logger.info(`🛸️ MongoDB loaded successfully`);
 

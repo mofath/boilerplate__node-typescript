@@ -8,7 +8,7 @@ async function startServer() {
   const app = express();
   const server = http.createServer(app);
 
-  loader();
+  loader(app);
 
   server
     .listen(config.PORT, () =>

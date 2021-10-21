@@ -1,5 +1,7 @@
 import winston, { createLogger, format, transports } from 'winston';
+import 'winston-mongodb';
 import path from 'path';
+import config from '../../config';
 
 /**
  * Winston available colors
@@ -62,7 +64,7 @@ winston.addColors(
   }, {})
 );
 
-const logger = createLogger({
+const logger: any = createLogger({
   level: 'silly',
   levels: Object.keys(LEVELS).reduce((prev, level, index) => {
     prev[level] = index;
@@ -96,6 +98,14 @@ logger.add(
   new transports.File({
     filename: path.join(logPath, 'errors.log'),
     level: 'error',
+  })
+);
+// add log to mongodb transport
+logger.add(
+  new winston.transports.MongoDB({
+    db: config.LOGGING_DB_URI,
+    options: { useUnifiedTopology: true },
+    level: config.ENV === 'development' ? 'debug' : 'info',
   })
 );
 
