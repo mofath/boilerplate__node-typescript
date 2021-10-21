@@ -1,1 +1,4 @@
-console.log("server is here!");
+import { logger } from './lib';
+
+logger.info('hello world');
+logger.debug('hello world');
