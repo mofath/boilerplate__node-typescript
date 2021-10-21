@@ -1,11 +1,14 @@
 import express from 'express';
 import http from 'http';
-import { logger } from './lib';
 import config from './config';
+import { logger } from './lib';
+import loader from './loaders';
 
 async function startServer() {
   const app = express();
   const server = http.createServer(app);
+
+  loader();
 
   server
     .listen(config.PORT, () =>
