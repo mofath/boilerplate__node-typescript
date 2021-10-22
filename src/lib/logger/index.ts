@@ -72,7 +72,8 @@ const logger: any = createLogger({
   }, {}),
   format: format.combine(
     format.timestamp({ format: 'DD-MM-YY HH:mm:ss' }),
-    format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
+    format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
+    format.errors({ stack: true })
   ),
 });
 
